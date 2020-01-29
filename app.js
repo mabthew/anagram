@@ -65,7 +65,6 @@ app.get('/anagrams/:word.json', (req, res) => {
 
      // upper limit on number of anagrams to return
      let limit = req.query.limit || Number.MAX_SAFE_INTEGER; 
-     let size = Math.min(limit, anagrams.length);
 
      // create return list respecting limit and proper nouns
      client.SMEMBERS(key, function(err,anagrams) {
@@ -73,7 +72,7 @@ app.get('/anagrams/:word.json', (req, res) => {
                throw err;
           } else {
                let result = [];
-
+               let size = Math.min(limit, anagrams.length);
                
                for (let i = 0; i < size; i++) {
                     if (anagrams[i] !== word) {
@@ -105,6 +104,21 @@ app.delete('/words/:word.json', (req, res) => {
                } else {
                     client.SREM(key, word);    
                }
+               res.status(204).send();
+          }
+     });
+});
+
+// DELETE /anagrams/:word
+// delete a word and all of its anagrams
+app.delete('/anagrams/:word.json', (req, res) => {
+     let word = req.params.word;
+     let key =  word.toLowerCase().split('').sort().join('');
+     client.SMEMBERS(key, function(err,anagrams) {
+          if (err) {
+               throw err;
+          } else {
+               client.DEL(key);
                res.status(204).send();
           }
      });
