@@ -22,7 +22,7 @@ client.on('connect', function(){
         let key =  word.split('').sort().join('');
         client.SADD(key, word);
     });
-    
+
     console.log("Words added to Redis.")
 });
 
@@ -42,7 +42,7 @@ app.post('/words.json', (req, res) => {
      let words = req.body.words;
 
      words.forEach(word => {
-          let key =  word.split('').sort().join('');
+          let key =  word.toLowerCase().split('').sort().join('');
           client.SADD(key, word);
      });
      
@@ -55,19 +55,34 @@ app.post('/words.json', (req, res) => {
 // fetch a list of anagrams for a given word
 app.get('/anagrams/:word.json', (req, res) => {
      let word = req.params.word;
-     let key =  word.split('').sort().join('');
+     let key =  word.toLowerCase().split('').sort().join('');
+     
+     // only include proper nouns if specified in the query
+     let includeProper = false;
+     if (req.query.proper !== undefined) {
+          includeProper = true;
+     }
 
+     // upper limit on number of anagrams to return
      let limit = req.query.limit || Number.MAX_SAFE_INTEGER; 
+     let size = Math.min(limit, anagrams.length);
+
+     // create return list respecting limit and proper nouns
      client.SMEMBERS(key, function(err,anagrams) {
           if (err) {
                throw err;
           } else {
                let result = [];
 
-               let size = Math.min(limit, anagrams.length);
+               
                for (let i = 0; i < size; i++) {
-                    if (anagrams[i] != word) {
-                         result.push(anagrams[i]);
+                    if (anagrams[i] !== word) {
+                         if (includeProper) {
+                              result.push(anagrams[i]);
+                         } else if (anagrams[i][0] === anagrams[i][0].toLowerCase()){ 
+                              result.push(anagrams[i]);
+                         }
+                         
                     }
                }
                res.status(200).send({"anagrams": result});
@@ -80,7 +95,7 @@ app.get('/anagrams/:word.json', (req, res) => {
 // delete a single word
 app.delete('/words/:word.json', (req, res) => {
      let word = req.params.word;
-     let key =  word.split('').sort().join('');
+     let key =  word.toLowerCase().split('').sort().join('');
      client.SMEMBERS(key, function(err,anagrams) {
           if (err) {
                throw err;
