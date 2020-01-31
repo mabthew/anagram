@@ -1,0 +1,57 @@
+#anagrams {
+    margin: 0;
+    padding: 10px;
+    float: left;
+    list-style: none;
+    font-size: 35px;
+}
+
+#search {
+    font-size: 35px;
+    align-self: center;
+}
+
+#img-container {
+    float: left;
+}
+
+#intro {
+    float: right;
+}
+
+#header {
+    margin: 15px;
+}
+
+#about {
+    list-style: none;
+    align-content: flex-start;
+}
+
+#info {
+    justify-self: right;
+}
+
+.dropdown {
+    text-align: center;
+    margin: 20px;
+    font-size: large;
+}
+
+.row {
+    width:100vw;
+    display: flex;
+}
+  
+.column {
+    width: 50%;
+    flex: 50%;
+}
+
+.results {
+    width: 33%;
+    float: left;
+    font-size: xx-large;
+    list-style: none;
+    
+}

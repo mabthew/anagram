@@ -1,25 +1,47 @@
 {
-  "name": "anagram",
-  "version": "1.0.0",
-  "description": "Ibotta Dev Project =========",
-  "main": "app.js",
-  "scripts": {
-    "setup": "node setup",
-    "start": "node app"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/mabthew/anagram.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/mabthew/anagram/issues"
-  },
-  "homepage": "https://github.com/mabthew/anagram#readme",
+  "name": "anagram-app",
+  "version": "0.1.0",
+  "description": "Ibotta Dev Project",
+  "private": true,
   "dependencies": {
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.3.2",
+    "@testing-library/user-event": "^7.1.2",
     "body-parser": "^1.19.0",
+    "bootswatch": "^4.4.1",
     "express": "^4.17.1",
+    "react": "^16.12.0",
+    "react-bootstrap": "^1.0.0-beta.16",
+    "react-dom": "^16.12.0",
+    "react-scripts": "3.3.0",
     "redis": "^2.8.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2",
+    "npm-run-all": "^4.1.5"
+  },
+  "scripts": {
+    "start": "PORT=3001 react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "server": "node server --exec nodemon",
+    "dev": "run-p server start"
+  },
+  "proxy": "http://localhost:3000",
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }
