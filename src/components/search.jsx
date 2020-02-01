@@ -83,7 +83,7 @@ export default class Search extends Component {
         this.setState({anagrams});
     }
 
-    // retrieve list of anagrams
+    // request list of anagrams
     fetchAnagrams(word) {
         if (word ==='' || word.length === 1) {
             this.setState({anagrams: []});
@@ -99,10 +99,13 @@ export default class Search extends Component {
         for (let i = 0; i < words.length; i++) {
             let url = 'http://localhost:3000/anagrams/' + words[i] + '.json' + query;
             console.log(url);
+
+            // request
             http.get(url, (res) => {
                 const { statusCode } = res;
                 const contentType = res.headers['content-type'];
                 
+                // validate respose
                 let error;
                 if (statusCode !== 200) {
                     error = new Error('Request Failed.\n' +
@@ -161,14 +164,14 @@ export default class Search extends Component {
         this.setState({ searchModes, limitValues });
     }
 
-    //update search mode
+    // update search mode
     changeMode(mode) {
         this.setState({selectedMode: mode},
             () => this.fetchAnagrams(this.state.value)
         );
     }
 
-    //update result limit
+    // update result limit
     changeLimit(newLimit) {
         this.setState({selectedLimit: newLimit},
             () => this.fetchAnagrams(this.state.value)
@@ -246,14 +249,14 @@ function substrings(str1) {
     let arr = [];
 
     for (let x = 0, y=1; x < str1.length; x++,y++) {
-      arr[x]=str1.substring(x, y);
+      arr[x] = str1.substring(x, y);
     }
     let temp= "";
     let slent = Math.pow(2, arr.length);
   
     for (let i = 0; i < slent ; i++) {
       temp= "";
-      for (let j=0;j<arr.length;j++) {
+      for (let j = 0; j < arr.length; j++) {
         if ((i & Math.pow(2,j))){ 
             temp += arr[j];
         }

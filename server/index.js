@@ -33,14 +33,6 @@ client.on('connect', function(){
      console.log("Words added to Redis.")
 });
 
-app.get('/api/greeting', (req, res) => {
-     const name = req.query.name || 'World';
-     res.setHeader('Content-Type', 'application/json');
-     res.send(JSON.stringify({ greeting: `Hello ${name}!` }));
-   });
-   
-
-
 // POST /words
 // add a list of words to the corpus
 app.post('/words.json', (req, res) => {

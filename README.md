@@ -88,7 +88,7 @@ Note that a word is not considered to be its own anagram.
 
 ## Implementation details
 
-This project uses Node.js, Express, and Redis for the backend and React for the frontend. 
+This API was made using Node.js and Express with a Redis data store on the backend, and React for the frontend. 
 
 ### Redis and data structure
 
