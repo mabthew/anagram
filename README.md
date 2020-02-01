@@ -1,32 +1,32 @@
-Ibotta Dev Project
+Anagram Finder
 =========
 
+# Description
 
-# The Project
+The Anagram Finder is an API that allows fast searches for anagrams. It uses a text file containing every word in the English dictionary as its resource and allows different search settings such as including/excluding proper nouns, and scrabble mode to find anagrams for all substrings of a given input.
 
----
-
-The project is to build an API that allows fast searches for [anagrams](https://en.wikipedia.org/wiki/Anagram). `dictionary.txt` is a text file containing every word in the English dictionary. Ingesting the file doesn’t need to be fast, and you can store as much data in memory as you like.
-
-The API you design should respond on the following endpoints as specified.
+The API exposes the following endpoints: 
 
 - `POST /words.json`: Takes a JSON array of English-language words and adds them to the corpus (data store).
 - `GET /anagrams/:word.json`:
   - Returns a JSON array of English-language words that are anagrams of the word passed in the URL.
-  - This endpoint should support an optional query param that indicates the maximum number of results to return.
+  - Supports 2 optional query params:
+    - limit (int) indicates the maximum number of results to return.
+    - proper (bool) determines whether proper nouns should be included in the results.
 - `DELETE /words/:word.json`: Deletes a single word from the data store.
+- `DELETE /anagrams/:word.json`: Deletes a word *and all of its anagrams*.
 - `DELETE /words.json`: Deletes all contents of the data store.
 
+# Running Locally
 
-**Optional**
-- Endpoint that returns a count of words in the corpus and min/max/median/average word length
-- Respect a query param for whether or not to include proper nouns in the list of anagrams
-- Endpoint that identifies words with the most anagrams
-- Endpoint that takes a set of words and returns whether or not they are all anagrams of each other
-- Endpoint to return all anagram groups of size >= *x*
-- Endpoint to delete a word *and all of its anagrams*
+In order to run this project locally, you must have Redis installed and running (port 6379). [https://redis.io/topics/quickstart] 
 
-Clients will interact with the API over HTTP, and all data sent and received is expected to be in JSON format
+Clone the repo and run `npm install`. Once all dependencies have been installed, you're ready to go.
+
+To get everything going, run the command `npm run dev` and you should see the interface running on `http://localhost:3001`.
+
+
+# Examples
 
 Example (assuming the API is being served on localhost port 3000):
 
@@ -57,8 +57,24 @@ HTTP/1.1 200 OK
   ]
 }
 
+# Fetching anagrams including proper nouns
+$ curl -i http://localhost:3000/anagrams/read.json?proper
+HTTP/1.1 200 OK
+...
+{
+  anagrams: [
+    "dare",
+    "Dear"
+  ]
+}
+
 # Delete single word
 $ curl -i -X DELETE http://localhost:3000/words/read.json
+HTTP/1.1 204 No Content
+...
+
+# Delete a word and all of its anagrams
+$ curl -i -X DELETE http://localhost:3000/anagrams/:word.json
 HTTP/1.1 204 No Content
 ...
 
@@ -70,53 +86,26 @@ HTTP/1.1 204 No Content
 
 Note that a word is not considered to be its own anagram.
 
+## Implementation details
 
-## Tests
+This project uses Node.js, Express, and Redis for the backend and React for the frontend. 
 
-We have provided a suite of tests to help as you develop the API. To run the tests you must have Ruby installed ([docs](https://www.ruby-lang.org/en/documentation/installation/)):
+### Redis and data structure
 
-```{bash}
-ruby anagram_test.rb
-```
+I chose to use Redis to store the dictionary for it's performance. Reads and writes are extremely quick because Redis stores all data in RAM. I thought the large size of the corpus (~230,000 words) may be an issue, but performance generally didn't seem to be a problem and the writeup allows for any amount of data to be stored in memory.
 
-Only the first test will be executed, all the others have been made pending using the `pend` method. Delete or comment out the next `pend` as you get each test passing.
+Upon running, the corpus is built from `dictionary.txt`. The words are made lower case, split, sorted, and re-joined to create a normalized Redis key that correspond to a set of anagrams. This allows for all anagrams of a given word to be fetched by a universal key. This structure may have contributed to a slight performance struggle in one case that was beyond the scope of the requirements: scrabble mode with many letters (explained below). 
 
-If you are running your server somewhere other than localhost port 3000, you can configure the test runner with configuration options described by
+### Scrabble mode
 
-```{bash}
-ruby anagram_test.rb -h
-```
+*Scrabble mode* is a setting that is used to find more than just anagrams.  When search mode is set to Scrabble, searching returns anagrams for all possible combinations of substrings. In the future I plan to change the dictionary to the accepted Scrabble dictionary and deploy the app to become a force to be reckoned with in my roommate Scrabble games.
 
-You are welcome to add additional test cases if that helps with your development process. The [benchmark-bigo](https://github.com/davy/benchmark-bigo) gem is helpful if you wish to do performance testing on your implementation.
+I did note a performance drop off when scrabble mode is turned on and many letters are typed into the search box. This makes sense due to the massive number of operations going on behind the scenes when a large scrabble search is made (finding all combinations of substrings, making many API requests, sorting the results, re-rendering the page). With more time, I would optimize this feature, maybe by altering the initial data structure to be better suited for scrabble search, or by changing the order of those steps in a way that requires less rendering. I'm submitting this knowing that performance drawback, but scrabble mode is outside of the scope of the project so I figure it's better to turn it in now and optimize down the road.
 
-## API Client
+### Frontend
 
-We have provided an API client in `anagram_client.rb`. This is used in the test suite, and can also be used in development.
+I am far from a React expert, but I'm always looking to learn something new. For this reason I made a simple interface to show the functionality of the API. I probably spent more time than I should've making the Anagram Finder logo, but the page was pretty empty so I wanted to add a little personal touch.
 
-To run the client in the Ruby console, use `irb`:
+### Looking ahead
 
-```{ruby}
-$ irb
-> require_relative 'anagram_client'
-> client = AnagramClient.new
-> client.post('/words.json', nil, { 'words' => ['read', 'dear', 'dare']})
-> client.get('/anagrams/read.json')
-```
-
-## Documentation
-
-Optionally, you can provide documentation that is useful to consumers and/or maintainers of the API.
-
-Suggestions for documentation topics include:
-
-- Features you think would be useful to add to the API
-- Implementation details (which data store you used, etc.)
-- Limits on the length of words that can be stored or limits on the number of results that will be returned
-- Any edge cases you find while working on the project
-- Design overview and trade-offs you considered
-
-
-# Deliverable
----
-
-Please provide the code for the assignment either in a private repository (GitHub or Bitbucket) or as a zip file. If you have a deliverable that is deployed on the web please provide a link, otherwise give us instructions for running it locally.
+I plan to deploy this app to either GCP or AWS in the near future. I wanted to get a working project back quickly so I am sending it over to be run locally, but I am already looking into deploying and will have something once I do a little more research into the various cloud platforms.
