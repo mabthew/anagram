@@ -1,8 +1,6 @@
 Anagram Finder
 =========
 
-# Description
-
 The Anagram Finder is an API that allows fast searches for anagrams. It uses a text file containing every word in the English dictionary as its resource and allows different search settings such as including/excluding proper nouns, and scrabble mode to find anagrams for all substrings of a given input.
 
 The API exposes the following endpoints: 
@@ -17,16 +15,16 @@ The API exposes the following endpoints:
 - `DELETE /anagrams/:word.json`: Deletes a word *and all of its anagrams*.
 - `DELETE /words.json`: Deletes all contents of the data store.
 
-# Running Locally
+## Running Locally
 
-In order to run this project locally, you must have Redis installed and running (port 6379). [https://redis.io/topics/quickstart] 
+In order to run this project locally, you must have [Redis](https://redis.io/topics/quickstart)  installed and running (port 6379). 
 
 Clone the repo and run `npm install`. Once all dependencies have been installed, you're ready to go.
 
 To get everything going, run the command `npm run dev` and you should see the interface running on `http://localhost:3001`.
 
 
-# Examples
+## Examples
 
 Example (assuming the API is being served on localhost port 3000):
 
