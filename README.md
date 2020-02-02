@@ -9,8 +9,8 @@ The API exposes the following endpoints:
 - `GET /anagrams/:word.json`:
   - Returns a JSON array of English-language words that are anagrams of the word passed in the URL.
   - Supports 2 optional query params:
-    - limit (int) indicates the maximum number of results to return.
-    - proper (bool) determines whether proper nouns should be included in the results.
+    - limit (ex: limit=2) indicates the maximum number of results to return.
+    - proper ( default will not show proper nouns, include proper to see them) determines whether proper nouns should be included in the results.
 - `DELETE /words/:word.json`: Deletes a single word from the data store.
 - `DELETE /anagrams/:word.json`: Deletes a word *and all of its anagrams*.
 - `DELETE /words.json`: Deletes all contents of the data store.
