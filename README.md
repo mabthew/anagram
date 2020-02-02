@@ -1,7 +1,7 @@
 Anagram Finder
 =========
 
-The Anagram Finder is an API that allows fast searches for anagrams. It uses a text file containing every word in the English dictionary as its resource and allows different search settings such as including/excluding proper nouns, and scrabble mode to find anagrams for all substrings of a given input.
+The Anagram Finder is an API that allows fast searches for anagrams. It uses a text file containing every word in the English dictionary as its source and allows different search settings such as including/excluding proper nouns, and scrabble mode to find anagrams for all substrings of a given input.
 
 The API exposes the following endpoints: 
 
@@ -17,11 +17,11 @@ The API exposes the following endpoints:
 
 ## Running Locally
 
-In order to run this project locally, you must have [Redis](https://redis.io/topics/quickstart)  installed and running (port 6379). 
+In order to run this project locally, you must have [Redis](https://auth0.com/blog/introduction-to-redis-install-cli-commands-and-data-types/)  installed and running (port 6379). Use `redis-server &` to run it in the background, or open another terminal window for the next step.
 
-Clone the repo and run `npm install`. Once all dependencies have been installed, you're ready to go.
+Clone the repo, cd into it, and run `npm install`. Once all dependencies have been installed, you're ready to go.
 
-To get everything going, run the command `npm run dev` and you should see the interface running on `http://localhost:3001`.
+To get everything going, run the command `npm run dev` and navigate to `http://localhost:3001`.
 
 
 ## Examples
@@ -102,7 +102,7 @@ I did note a performance drop off when scrabble mode is turned on and many lette
 
 ### Frontend
 
-I am far from a React expert, but I'm always looking to learn something new. For this reason I made a simple interface to show the functionality of the API. I probably spent more time than I should've making the Anagram Finder logo, but the page was pretty empty so I wanted to add a little personal touch.
+I am far from a React expert, but I'm always looking to learn something new. For this reason I made a simple interface to show the functionality of the API. I probably spent more time than I should've making the Anagram Finder logo, but the page was a little empty so I wanted to add a little personal touch.
 
 ### Looking ahead
 
