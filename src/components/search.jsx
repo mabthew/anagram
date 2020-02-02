@@ -184,29 +184,29 @@ export default class Search extends Component {
                 <div  id="img-container" style={{backgroundImage: 'url(images/logo.png', backgroundRepeat: "no-repeat", backgroundPositionX: "-5%"}}>
                     <div id="header"><h1>Welcome to the Anagram Finder!</h1></div>
                     <div className="row" style={{height: "45vh"}}>
-                    <div className="column">
+                    <div className="column-thin">
                     </div>
-                        <div className="column" id="info" style={{fontSize: "large", textAlign: "left", paddingLeft: "10px", paddingTop: "15px"}}>
-                            <p>
-                                An anagram is a word, phrase, or name formed by rearranging the letters of another, such as <i>cinema</i>, formed from <i>iceman</i>.
-                            </p>
-                            <div>
-                                This app allows for 3 different types of searches: <br/><br/>
-                                <ul id="about">
-                                    <li>
-                                        <strong>Strict</strong> will return words that match exactly the provided letters.
-                                    </li>
-                                    <li>
-                                        <strong>Proper</strong> will return the same list as strict as well as proper nouns.
-                                    </li>
-                                    <li>
-                                        <strong>Scrabble</strong> will return words that are an anagram of any subset of the provided letters.
-                                    </li>
-                                    
-                                </ul>
-                            </div>
-                            
+                    <div className="column-wide" id="info" style={{fontSize: "large", textAlign: "left", paddingLeft: "10px", paddingTop: "15px"}}>
+                        <p>
+                            An anagram is a word, phrase, or name formed by rearranging the letters of another, such as <i>cinema</i>, formed from <i>iceman</i>.
+                        </p>
+                        <div>
+                            This app allows for 3 different types of searches: <br/><br/>
+                            <ul id="about">
+                                <li>
+                                    <strong>Strict</strong> will return words that match exactly the provided letters.
+                                </li>
+                                <li>
+                                    <strong>Proper</strong> will return the same list as strict as well as proper nouns.
+                                </li>
+                                <li>
+                                    <strong>Scrabble</strong> will return words that are an anagram of any subset of the provided letters.
+                                </li>
+                                
+                            </ul>
                         </div>
+                        
+                    </div>
                     </div>
                 </div>
 
